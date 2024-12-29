@@ -55,7 +55,7 @@ const productSchema = new mongoose.Schema({
   },
   image: { type: String, required: true },
   basePrice: { type: Number, required: true }, // Base price
-  productType: { type: String, enum: ['food', 'sauce', 'drink'], required: true },
+  productType: { type: String, enum: ['food', 'sauce', 'drink', 'appetizer' , 'dessert'], required: true },
   categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', require: true},
   topselling: { type: Boolean, default: false },
   sizes: [sizeSchema], // Optional sizes

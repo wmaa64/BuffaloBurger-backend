@@ -18,7 +18,7 @@ const getFeaturedProducts = async (req, res) => {
 const getTopSellingProducts = async (req, res) => {
   try {
     // Fetch featured products (assuming there's a 'featured' field in the Product model)
-    const products = await Product.find({ topselling: true }).limit(5);
+    const products = await Product.find({ topselling: true });
     
     // Send the products in the response
     res.status(200).json(products);
