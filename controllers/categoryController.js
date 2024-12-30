@@ -1,5 +1,22 @@
 import Category from '../models/Category.js';
 import Subcategory from '../models/Subcategory.js';
+import Product from '../models/Product.js';
+
+const getCategories = async (req, res) => {
+  try {
+     // Fetch all categories
+     const categories = await Category.find(); 
+    
+    // Send the categories in the response
+    res.status(200).json(categories);
+
+  } catch (error) {
+    // Handle any errors
+    console.error('Error fetching categories', error);
+    res.status(500).json({ message: 'Server error. Unable to fetch catherogies.' });
+  }
+};
+
 
 const getCategoryWithSubCategory = async (req, res) => {
   try {
@@ -33,7 +50,31 @@ const getCategoryWithSubCategory = async (req, res) => {
   }
 };
 
- 
+// GET /categories-with-products
+const getCategoriesWithProducts = async (req,res) => {
+  try {
+    // Fetch all categories
+    const categories = await Category.find();
+
+    // For each category, fetch its associated products
+    const categoriesWithProducts = await Promise.all(
+      categories.map(async (category) => {
+        const products = await Product.find({ categoryId: category._id })
+          .select('name description image basePrice') // Include only necessary fields
+          .lean();
+        return { ...category.toObject(), products };
+      })
+    );
+
+    res.status(200).json(categoriesWithProducts);
+  } catch (error) {
+    console.error('Error fetching categories with products:', error);
+    res.status(500).json({ message: 'Failed to fetch categories with products', error });
+  }
+
+};
+
+
 // Create a new category
 const createCategory = async (req, res) => {
   try {
@@ -68,4 +109,4 @@ const deleteCategory =  async (req, res) => {
   }
 };
 
-export { getCategoryWithSubCategory, createCategory,updateCategory, deleteCategory };
+export { getCategories , getCategoryWithSubCategory, getCategoriesWithProducts , createCategory,updateCategory, deleteCategory };
