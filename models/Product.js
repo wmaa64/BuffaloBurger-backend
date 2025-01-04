@@ -44,6 +44,51 @@ const comboSchema = new mongoose.Schema({
   ],
 });
 
+const offerContentSchema = new mongoose.Schema({
+  sandwichOptions: [
+    {
+      sandwich: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Product', // Reference to a product representing the sandwich
+        required: true 
+      },
+      price: { type: Number, required: true },
+    }  ],
+
+  includesFries: { type: Boolean, required: true },
+  friesOptions: [
+    {
+      fries: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Product', // Reference to a product representing the sandwich
+        required: true 
+      },
+      price: { type: Number, required: true },
+    }  ],
+
+  includesDrink: { type: Boolean, required: true },
+  drinkOptions: [
+    {
+      drink: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Product', // Reference to a product representing the sandwich
+        required: true 
+      },
+      price: { type: Number, required: true },
+    }  ],
+
+    includesExtraSandwich: { type: Boolean, required: true },
+    extraSandwichOptions: [
+    {
+      sandwich: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Product', // Reference to a product representing the sandwich
+        required: false 
+      },
+      price: { type: Number, required: true },
+    }  ],
+});
+
 const productSchema = new mongoose.Schema({
   name: {
     en: { type: String, required: true },
@@ -55,13 +100,14 @@ const productSchema = new mongoose.Schema({
   },
   image: { type: String, required: true },
   basePrice: { type: Number, required: true }, // Base price
-  productType: { type: String, enum: ['food', 'sauce', 'drink', 'appetizer' , 'dessert'], required: true },
+  productType: { type: String, enum: [ 'offer' , 'food', 'sauce', 'drink', 'appetizer' , 'dessert'], required: true },
   categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', require: true},
   topselling: { type: Boolean, default: false },
   sizes: [sizeSchema], // Optional sizes
   breadTypes: [breadTypeSchema], // Optional bread types
   combos: [comboSchema], // Combos with drinks and other details
   extras: [extraSchema], // Optional extras
+  offerContent: offerContentSchema,
   createdAt: { type: Date, default: Date.now },
 });
 
