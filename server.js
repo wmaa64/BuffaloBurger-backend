@@ -13,8 +13,9 @@ dotenv.config();
 
 const app = express()
 
-//app.use(cors());
+app.use(cors());
 
+/*
 // CORS configuration: Allow requests from both the frontend domain and localhost
 const allowedOrigins = [
     'https://buffalo-burger-frontend.vercel.app',  // Production Frontend
@@ -33,7 +34,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],    // Allowed headers
     credentials: true                                     // Allow credentials (cookies, headers)
 }));
-
+*/
 
 app.use(express.json());
 app.use(morgan('dev'));
